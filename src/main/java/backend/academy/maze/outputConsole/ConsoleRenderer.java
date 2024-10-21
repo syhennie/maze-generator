@@ -15,6 +15,7 @@ public class ConsoleRenderer implements Renderer {
 
     @Override
     public String render(Maze maze) {
+        validateMaze(maze);
         StringBuilder builder = new StringBuilder();
         for (int row = 0; row < maze.height(); row++) {
             for (int col = 0; col < maze.width(); col++) {
@@ -28,12 +29,12 @@ public class ConsoleRenderer implements Renderer {
 
     @Override
     public String render(Maze maze, List<Coordinate> path) {
+        validateMaze(maze);
+        validatePath(path);
         StringBuilder builder = new StringBuilder();
-
         for (int row = 0; row < maze.height(); row++) {
             for (int col = 0; col < maze.width(); col++) {
                 Cell cell = maze.getCell(row, col);
-
                 if (isPartOfPath(path, row, col)) {
                     builder.append(PATH);  // Символ для пути
                 } else {
@@ -52,11 +53,24 @@ public class ConsoleRenderer implements Renderer {
             case RAIN -> builder.append(RAIN);
             case SNOW -> builder.append(SNOW);
             case LOCKED -> builder.append(LOCKED);
-            default -> builder.append(MONEY);
+            case MONEY -> builder.append(MONEY);
+            default -> throw new IllegalArgumentException("Неизвестный тип клетки: " + cell.type());
         }
     }
 
     private boolean isPartOfPath(List<Coordinate> path, int row, int col) {
         return path.stream().anyMatch(coordinate -> coordinate.row() == row && coordinate.col() == col);
+    }
+
+    private void validateMaze(Maze maze) {
+        if (maze == null) {
+            throw new IllegalArgumentException("Лабиринт не может быть пуст");
+        }
+    }
+
+    private void validatePath(List<Coordinate> path) {
+        if (path == null) {
+            throw new IllegalArgumentException("Путь не может быть пуст");
+        }
     }
 }

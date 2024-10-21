@@ -4,28 +4,18 @@ import backend.academy.maze.generatorMaze.Cell;
 import backend.academy.maze.generatorMaze.Maze;
 import backend.academy.maze.outputConsole.Coordinate;
 import backend.academy.maze.searchWays.Solver;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
+
+import java.util.*;
 
 public class AStarSolver implements Solver {
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(n -> n.f));
-
         Set<Coordinate> closedSet = new HashSet<>();
-
         Map<Coordinate, Integer> gScore = new HashMap<>();
         Map<Coordinate, Coordinate> cameFrom = new HashMap<>();
 
         gScore.put(start, 0);
-
         openSet.add(new Node(start, 0, heuristic(start, end)));
 
         while (!openSet.isEmpty()) {
@@ -41,7 +31,9 @@ public class AStarSolver implements Solver {
                     continue;
                 }
 
-                int tentativeGScore = gScore.get(current.coordinate) + 1; // 1 - стоимость движения
+                int cellWeight = maze.getCell(neighbor.row(), neighbor.col()).getWeight();
+
+                int tentativeGScore = gScore.get(current.coordinate) + cellWeight;
 
                 if (!gScore.containsKey(neighbor) || tentativeGScore < gScore.get(neighbor)) {
                     cameFrom.put(neighbor, current.coordinate);
@@ -55,6 +47,7 @@ public class AStarSolver implements Solver {
 
         return Collections.emptyList();
     }
+
 
     private int heuristic(Coordinate a, Coordinate b) {
         return Math.abs(a.row() - b.row()) + Math.abs(a.col() - b.col());
@@ -77,21 +70,22 @@ public class AStarSolver implements Solver {
         int row = coordinate.row();
         int col = coordinate.col();
 
-        if (maze.isValidCell(row - 1, col) && maze.getCell(row - 1, col).type() == Cell.Type.PASSAGE) {
+        if (maze.isValidCell(row - 1, col) && maze.getCell(row - 1, col).type() != Cell.Type.WALL) {
             neighbors.add(new Coordinate(row - 1, col));
         }
-        if (maze.isValidCell(row + 1, col) && maze.getCell(row + 1, col).type() == Cell.Type.PASSAGE) {
+        if (maze.isValidCell(row + 1, col) && maze.getCell(row + 1, col).type() != Cell.Type.WALL) {
             neighbors.add(new Coordinate(row + 1, col));
         }
-        if (maze.isValidCell(row, col - 1) && maze.getCell(row, col - 1).type() == Cell.Type.PASSAGE) {
+        if (maze.isValidCell(row, col - 1) && maze.getCell(row, col - 1).type() != Cell.Type.WALL) {
             neighbors.add(new Coordinate(row, col - 1));
         }
-        if (maze.isValidCell(row, col + 1) && maze.getCell(row, col + 1).type() == Cell.Type.PASSAGE) {
+        if (maze.isValidCell(row, col + 1) && maze.getCell(row, col + 1).type() != Cell.Type.WALL) {
             neighbors.add(new Coordinate(row, col + 1));
         }
 
         return neighbors;
     }
+
 
     private static class Node {
         Coordinate coordinate;
@@ -104,5 +98,4 @@ public class AStarSolver implements Solver {
             this.f = f;
         }
     }
-
 }

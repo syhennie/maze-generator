@@ -8,6 +8,9 @@ public final class Maze {
     private final Cell[][] grid;
 
     public Maze(int height, int width) {
+        if (height <= 0 || width <= 0) {
+            throw new IllegalArgumentException("Ширина и высота должны быть положительными числами");
+        }
         this.height = height;
         this.width = width;
         this.grid = new Cell[height][width];
@@ -26,21 +29,24 @@ public final class Maze {
         if (isValidCell(row, col)) {
             return grid[row][col];
         }
-        throw new IllegalArgumentException("Некорректные координаты");
+        throw new IllegalArgumentException("Некорректные введенные координаты: (" + row + ", " + col + ")");
     }
 
     public void setCell(int row, int col, Cell.Type type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Ячейка не может быть пустой");
+        }
         if (isValidCell(row, col)) {
             grid[row][col] = new Cell(row, col, type);
+        } else {
+            throw new IllegalArgumentException("Некорректные координаты: (" + row + ", " + col + ")");
         }
     }
 
     public void addObstacles() {
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
-                // Проверяем, что клетка является проходом
                 if (grid[row][col].type() == Cell.Type.PASSAGE) {
-                    // С вероятностью 25% изменяем тип клетки на случайный (кроме стены)
                     grid[row][col] = new Cell(row, col, Cell.getRandomType());
                 }
             }
@@ -50,5 +56,4 @@ public final class Maze {
     public boolean isValidCell(int row, int col) {
         return row >= 0 && row < height && col >= 0 && col < width;
     }
-
 }
