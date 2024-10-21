@@ -35,6 +35,18 @@ public final class Maze {
         }
     }
 
+    public void addObstacles() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                // Проверяем, что клетка является проходом
+                if (grid[row][col].type() == Cell.Type.PASSAGE) {
+                    // С вероятностью 25% изменяем тип клетки на случайный (кроме стены)
+                    grid[row][col] = new Cell(row, col, Cell.getRandomType());
+                }
+            }
+        }
+    }
+
     public boolean isValidCell(int row, int col) {
         return row >= 0 && row < height && col >= 0 && col < width;
     }

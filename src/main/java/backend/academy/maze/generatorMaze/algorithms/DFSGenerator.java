@@ -38,8 +38,6 @@ public class DFSGenerator implements Generator {
 
             if (maze.isValidCell(newRow, newCol) && !visited[newRow][newCol]) {
                 maze.setCell((row + newRow) / 2, (col + newCol) / 2, Cell.Type.PASSAGE);
-                /* Если нужно будет отображать с различными типами:
-                maze.setCell((row + newRow) / 2, (col + newCol) / 2, Cell.getRandomType());*/
                 dfs(maze, visited, newRow, newCol);
             }
         }

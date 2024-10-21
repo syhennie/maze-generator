@@ -24,7 +24,14 @@ public class Main {
             int width = size[1];
 
             Generator generator = menu.chooseMazeGenerator();
+            boolean withObstacles = menu.addObstacles();
+
             Maze maze = generator.generate(height, width);
+            if (withObstacles) {
+                menu.descriptionObstacles();
+                maze.addObstacles();
+            }
+
             Renderer renderer = new ConsoleRenderer();
             output.println(renderer.render(maze));
 

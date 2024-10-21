@@ -5,10 +5,14 @@ import java.util.Random;
 public record Cell(int row, int col, Type type) {
     private static final Random RANDOM = new Random();
 
-    public enum Type { WALL, PASSAGE, SNOW, RAIN, LOCKED, MONEY }
+    public enum Type {WALL, PASSAGE, SNOW, RAIN, LOCKED, MONEY}
 
     public static Type getRandomType() {
-        Type[] types = {Type.PASSAGE, Type.SNOW, Type.RAIN, Type.LOCKED, Type.MONEY};
-        return types[RANDOM.nextInt(types.length)];
+        // Вероятность 25%
+        if (RANDOM.nextInt(100) < 25) {
+            Type[] nonWallTypes = {Type.PASSAGE, Type.SNOW, Type.RAIN, Type.LOCKED, Type.MONEY};
+            return nonWallTypes[RANDOM.nextInt(nonWallTypes.length)];
+        }
+        return Type.PASSAGE; // 75% случаев возвращаем PASSAGE
     }
 }

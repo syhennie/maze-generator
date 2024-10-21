@@ -23,7 +23,7 @@ public class GameUI {
         int height = scanner.nextInt();
         output.print("Введите ширину лабиринта: ");
         int width = scanner.nextInt();
-        return new int[]{height, width};
+        return new int[] {height, width};
     }
 
     public Generator chooseMazeGenerator() {
@@ -41,17 +41,17 @@ public class GameUI {
     }
 
     public Coordinate[] requestCoordinates() {
-        output.print("Введите стартовую точку. Сначала х: ");
+        output.print("Введите стартовую точку. Сначала строку: ");
         int startRow = scanner.nextInt();
-        output.print("Теперь у: ");
+        output.print("Теперь столбец: ");
         int startCol = scanner.nextInt();
 
-        output.print("Проделаем то же самое с конечной точкой. Выбранный х: ");
+        output.print("Проделаем то же самое с конечной точкой. Выбранная строка: ");
         int endRow = scanner.nextInt();
-        output.print("И снова у: ");
+        output.print("И снова столбец: ");
         int endCol = scanner.nextInt();
 
-        return new Coordinate[]{new Coordinate(startRow, startCol), new Coordinate(endRow, endCol)};
+        return new Coordinate[] {new Coordinate(startRow, startCol), new Coordinate(endRow, endCol)};
     }
 
     public Solver chooseSolver() {
@@ -68,8 +68,21 @@ public class GameUI {
         };
     }
 
+    public boolean addObstacles() {
+        output.println("Хотите добавить препятствия в лабиринт? [1]-да, [2]-нет");
+        int choice = scanner.nextInt();
+        return choice == 1;
+    }
+
+    public void descriptionObstacles() {
+        output.println("⚡ - дождь: уменьшает скорость передвижения");
+        output.println("☦ - кладбище: если есть другой путь - лучше выбрать его...");
+        output.println("* - снег: значительно уменьшает скорость передвижения");
+        output.println("₽ - монетка: улучшает настроение при проходе через неё\n");
+    }
+
     public boolean continueGame() {
-        output.println("Хотите продолжить игру? [1]-да, [0]-нет");
+        output.println("Хотите продолжить игру? [1]-да, [2]-нет");
         int choice = scanner.nextInt();
         return choice == 1;
     }
