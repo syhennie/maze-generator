@@ -7,7 +7,6 @@ import backend.academy.maze.outputConsole.Coordinate;
 import backend.academy.maze.outputConsole.GameUI;
 import backend.academy.maze.outputConsole.Renderer;
 import backend.academy.maze.searchWays.Solver;
-
 import java.io.PrintStream;
 import java.util.List;
 import lombok.experimental.UtilityClass;
@@ -26,9 +25,15 @@ public class Main {
                 int width = size[1];
 
                 Generator generator = menu.chooseMazeGenerator();
+                int mazeType = menu.requestMazeType();
                 boolean withObstacles = menu.addObstacles();
 
                 Maze maze = generator.generate(height, width);
+
+                if (mazeType == 2) {
+                    maze.addRandomWalls();
+                }
+
                 if (withObstacles) {
                     menu.descriptionObstacles();
                     maze.addObstacles();

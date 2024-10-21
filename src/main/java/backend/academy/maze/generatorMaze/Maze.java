@@ -1,11 +1,13 @@
 package backend.academy.maze.generatorMaze;
 
+import java.util.Random;
 import lombok.Getter;
 
 public final class Maze {
     @Getter private final int height;
     @Getter private final int width;
     private final Cell[][] grid;
+    private static final int DEGREE_RANDOM = 80;
 
     public Maze(int height, int width) {
         if (height <= 0 || width <= 0) {
@@ -49,6 +51,23 @@ public final class Maze {
                 if (grid[row][col].type() == Cell.Type.PASSAGE) {
                     grid[row][col] = new Cell(row, col, Cell.getRandomType());
                 }
+            }
+        }
+    }
+
+    public void addRandomWalls() {
+        Random random = new Random();
+        int totalCells = height * width;
+        int numberOfWalls = totalCells / DEGREE_RANDOM;
+
+        int wallsAdded = 0;
+        while (wallsAdded < numberOfWalls) {
+            int row = random.nextInt(height);
+            int col = random.nextInt(width);
+
+            if (grid[row][col].type() == Cell.Type.PASSAGE) {
+                grid[row][col] = new Cell(row, col, Cell.Type.WALL);
+                wallsAdded++;
             }
         }
     }

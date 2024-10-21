@@ -13,7 +13,11 @@ import java.util.Scanner;
 public class GameUI {
     private final Scanner scanner = new Scanner(System.in);
     private final PrintStream output;
+    private static final int MIN_SIZE_MAZE = 3;
+    private static final int MAX_SIZE_MAZE = 151;
     private static final String PROMPT = "Ваш выбор: ";
+    private static final String INCORRECT_INPUT = "Некорректный ввод. Пожалуйста, введите число.";
+    private static final String CHECKSTYLE_IS_JOKE = "): ";
 
     public GameUI(PrintStream output) {
         this.output = output;
@@ -35,13 +39,13 @@ public class GameUI {
             output.print(prompt);
             try {
                 size = scanner.nextInt();
-                if (size >= 3 && size <= 151 && size % 2 != 0) {
+                if (size >= MIN_SIZE_MAZE && size <= MAX_SIZE_MAZE && size % 2 != 0) {
                     break;
                 } else {
                     output.println("Размер должен быть нечётным числом в диапазоне от 3 до 151.");
                 }
             } catch (InputMismatchException e) {
-                output.println("Некорректный ввод. Пожалуйста, введите число.");
+                output.println(INCORRECT_INPUT);
                 scanner.next();
             }
         }
@@ -49,14 +53,15 @@ public class GameUI {
     }
 
     public Coordinate[] requestCoordinates(int mazeHeight, int mazeWidth) {
-        output.print("Введите стартовую точку. Сначала строку (1 до " + (mazeHeight - 2) + "): ");
+        output.print("Введите стартовую точку. Сначала строку (1 до " + (mazeHeight - 2) + CHECKSTYLE_IS_JOKE);
         int startRow = getCoordinate(mazeHeight - 2);
-        output.print("Теперь столбец (1 до " + (mazeWidth - 2) + "): ");
+        output.print("Теперь столбец (1 до " + (mazeWidth - 2) + CHECKSTYLE_IS_JOKE);
         int startCol = getCoordinate(mazeWidth - 2);
 
-        output.print("Проделаем то же самое с конечной точкой. Выбранная строка (1 до " + (mazeHeight - 2) + "): ");
+        output.print(
+            "Проделаем то же самое с конечной точкой. Выбранная строка (1 до " + (mazeHeight - 2) + CHECKSTYLE_IS_JOKE);
         int endRow = getCoordinate(mazeHeight - 2);
-        output.print("И снова столбец (1 до " + (mazeWidth - 2) + "): ");
+        output.print("И снова столбец (1 до " + (mazeWidth - 2) + CHECKSTYLE_IS_JOKE);
         int endCol = getCoordinate(mazeWidth - 2);
 
         return new Coordinate[] {new Coordinate(startRow, startCol), new Coordinate(endRow, endCol)};
@@ -73,7 +78,7 @@ public class GameUI {
                     output.println("Координата должна быть в диапазоне от " + 1 + " до " + max + ".");
                 }
             } catch (InputMismatchException e) {
-                output.println("Некорректный ввод. Пожалуйста, введите число.");
+                output.println(INCORRECT_INPUT);
                 scanner.next();
             }
         }
@@ -124,6 +129,13 @@ public class GameUI {
         output.println("₽ - монетка: улучшает настроение при проходе через неё\n");
     }
 
+    public int requestMazeType() {
+        output.println("Сгенерировать [1]-идеальный или [2]-неидеальный лабиринт?");
+        int choice = scanner.nextInt();
+
+        return choice == 2 ? 2 : 1;
+    }
+
     public boolean continueGame() {
         output.println("Хотите продолжить игру? [1]-да, [2]-нет");
 
@@ -139,7 +151,7 @@ public class GameUI {
                 input = scanner.nextInt();
                 break; // Ввод успешен, выходим из цикла
             } catch (InputMismatchException e) {
-                output.println("Некорректный ввод. Пожалуйста, введите число.");
+                output.println(INCORRECT_INPUT);
                 scanner.next();
             }
         }
