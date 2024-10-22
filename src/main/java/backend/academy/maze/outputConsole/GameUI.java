@@ -16,6 +16,8 @@ public class GameUI {
     private static final int MIN_SIZE_MAZE = 3;
     private static final int MAX_SIZE_MAZE = 151;
     private static final String PROMPT = "Ваш выбор: ";
+    private static final String ODD_SIZE_PROMPT =
+        "Введем размеры лабиринта. Размеры должны быть нечётными числами в диапазоне от 3 до 151 включительно.";
     private static final String INCORRECT_INPUT = "Некорректный ввод. Пожалуйста, введите число.";
     private static final String CHECKSTYLE_IS_JOKE = "): ";
 
@@ -24,8 +26,7 @@ public class GameUI {
     }
 
     public int[] requestMazeSize() {
-        output.println(
-            "Введем размеры лабиринта. Размеры должны быть нечётными числами в диапазоне от 3 до 151 включительно.");
+        output.println(ODD_SIZE_PROMPT);
 
         int height = getOddSize("Введите высоту лабиринта: ");
         int width = getOddSize("Введите ширину лабиринта: ");

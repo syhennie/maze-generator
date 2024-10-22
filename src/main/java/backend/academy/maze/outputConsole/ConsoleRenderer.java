@@ -36,7 +36,7 @@ public class ConsoleRenderer implements Renderer {
             for (int col = 0; col < maze.width(); col++) {
                 Cell cell = maze.getCell(row, col);
                 if (isPartOfPath(path, row, col)) {
-                    builder.append(PATH);  // Символ для пути
+                    builder.append(PATH);
                 } else {
                     chooseType(builder, cell);
                 }

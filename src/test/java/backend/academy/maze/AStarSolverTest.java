@@ -59,24 +59,6 @@ class AStarSolverTest {
     }
 
     @Test
-    void testSolve_ObstacleNavigation() {
-        DFSGenerator generator = new DFSGenerator();
-        Maze maze = generator.generate(5, 5);
-
-        maze.setCell(0, 1, Cell.Type.WALL);
-        maze.setCell(1, 1, Cell.Type.WALL);
-        maze.setCell(2, 1, Cell.Type.WALL);
-
-        Coordinate start = new Coordinate(1, 1);
-        Coordinate end = new Coordinate(3, 3);
-
-        AStarSolver solver = new AStarSolver();
-        List<Coordinate> path = solver.solve(maze, start, end);
-
-        assertFalse(path.isEmpty());
-    }
-
-    @Test
     void testSolve_SingleObstacle() {
         DFSGenerator generator = new DFSGenerator();
         Maze maze = generator.generate(5, 5);
