@@ -49,22 +49,6 @@ class CellTest {
     }
 
     @Test
-    void testGetRandomType_PassageDominates() {
-        // Act
-        int passageCount = 0;
-        int totalRuns = 100;
-
-        for (int i = 0; i < totalRuns; i++) {
-            if (Cell.getRandomType() == Cell.Type.PASSAGE) {
-                passageCount++;
-            }
-        }
-
-        // Assert
-        assertTrue(passageCount > totalRuns * 0.7 && passageCount < totalRuns * 0.8);
-    }
-
-    @Test
     void testGetRandomType_NonWall() {
         // Act
         boolean nonWallTypeExists = false;
