@@ -31,7 +31,7 @@ public record Cell(int row, int col, Type type) {
             : Type.PASSAGE; // 75% случаев возвращаем PASSAGE
     }
 
-    private static Type getRandomNonWallType() {
+    public static Type getRandomNonWallType() {
         Type[] nonWallTypes = {Type.PASSAGE, Type.SNOW, Type.RAIN, Type.LOCKED, Type.MONEY};
         return nonWallTypes[RANDOM.nextInt(nonWallTypes.length)];
     }

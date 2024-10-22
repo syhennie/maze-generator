@@ -68,19 +68,6 @@ class MazeTest {
     }
 
     @Test
-    void testAddRandomWalls() {
-        // Arrange
-        Maze maze = new Maze(10, 10);
-
-        // Act
-        maze.setCell(2, 2, Cell.Type.PASSAGE);
-        maze.addRandomWalls();
-
-        // Assert
-        assertTrue(maze.getCell(2, 2).type() == Cell.Type.WALL || maze.getCell(2, 2).type() == Cell.Type.PASSAGE);
-    }
-
-    @Test
     void testIsValidCell() {
         // Arrange
         Maze maze = new Maze(5, 5);
@@ -99,5 +86,39 @@ class MazeTest {
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> maze.getCell(5, 5));
         assertThrows(IllegalArgumentException.class, () -> maze.getCell(-1, 0));
+    }
+
+    @Test
+    void testMazeConstructor_ValidDimensions() {
+        Maze maze = new Maze(5, 5);
+        assertEquals(5, maze.height());
+        assertEquals(5, maze.width());
+    }
+
+    @Test
+    void testMazeConstructor_InvalidDimensions() {
+        assertThrows(IllegalArgumentException.class, () -> new Maze(-1, 5));
+        assertThrows(IllegalArgumentException.class, () -> new Maze(5, 0));
+    }
+
+    @Test
+    void testSetCell_InvalidCoordinates() {
+        Maze maze = new Maze(5, 5);
+        assertThrows(IllegalArgumentException.class, () -> maze.setCell(-1, -1, Cell.Type.WALL));
+    }
+
+    @Test
+    void testAddRandomWalls() {
+        Maze maze = new Maze(5, 5);
+        maze.addRandomWalls();
+        int wallCount = 0;
+        for (int row = 0; row < maze.height(); row++) {
+            for (int col = 0; col < maze.width(); col++) {
+                if (maze.getCell(row, col).type() == Cell.Type.WALL) {
+                    wallCount++;
+                }
+            }
+        }
+        assertTrue(wallCount > 0);
     }
 }

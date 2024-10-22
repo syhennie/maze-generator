@@ -37,7 +37,7 @@ public class PrimGenerator implements Generator {
         return maze;
     }
 
-    private Coordinate getRandomStartCoordinate(int height, int width) {
+    public Coordinate getRandomStartCoordinate(int height, int width) {
         int startRow = random.nextInt(height / 2) * 2 + 1;
         int startCol = random.nextInt(width / 2) * 2 + 1;
         return new Coordinate(startRow, startCol);

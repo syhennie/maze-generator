@@ -23,6 +23,29 @@ class ConsoleRendererTest {
     }
 
     @Test
+    void testRender() {
+        Maze maze = new Maze(3, 3);
+        maze.setCell(1, 1, Cell.Type.PASSAGE);
+        ConsoleRenderer renderer = new ConsoleRenderer();
+        String output = renderer.render(maze);
+
+        assertTrue(output.contains("███"));
+        assertTrue(output.contains("   "));
+    }
+
+    @Test
+    void testRenderContainsPath() {
+        Maze maze = new Maze(5, 5);
+        maze.setCell(1, 1, Cell.Type.PASSAGE);
+        List<Coordinate> path = List.of(new Coordinate(1, 1), new Coordinate(1, 2));
+        ConsoleRenderer renderer = new ConsoleRenderer();
+
+        String output = renderer.render(maze, path);
+
+        assertTrue(output.contains(" o "));
+    }
+
+    @Test
     void testRenderWithoutPath() {
         // Arrange
         maze.setCell(0, 0, Cell.Type.WALL);
