@@ -14,7 +14,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Main {
     public static void main(String[] args) {
-        PrintStream output = new PrintStream(System.out);
+        PrintStream output = System.out;
         GameUI menu = new GameUI(output);
         output.println("Добро пожаловать в игру Лабиринты!");
 
@@ -48,6 +48,7 @@ public class Main {
 
                 Solver solver = menu.chooseSolver();
                 List<Coordinate> path = solver.solve(maze, start, end);
+
                 if (!path.isEmpty()) {
                     output.println("Путь успешно найден!");
                     output.println(renderer.render(maze, path));
@@ -59,10 +60,15 @@ public class Main {
                     output.println("Спасибо за игру!");
                     break;
                 }
+
             } catch (Exception e) {
-                output.println("Произошла ошибка: " + e.getMessage());
-                output.println("Попробуйте снова.");
+                handleError(output, e);
             }
         }
+    }
+
+    public void handleError(PrintStream output, Exception e) {
+        output.println("Произошла ошибка: " + e.getMessage());
+        output.println("Попробуйте снова.");
     }
 }
