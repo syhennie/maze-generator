@@ -11,8 +11,19 @@ import java.io.PrintStream;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 
+/**
+ * Главный класс, отвечающий за запуск игры "Лабиринты".
+ * Этот класс содержит основной цикл игры, который управляет
+ * генерацией лабиринта, выбором координат, выбором алгоритма решения
+ * и выводом результатов пользователю.
+ */
 @UtilityClass
 public class Main {
+    /**
+     * Главный метод, запускающий игру.
+     *
+     * @param args аргументы командной строки (не используются)
+     */
     public static void main(String[] args) {
         PrintStream output = System.out;
         GameUI menu = new GameUI(output);
@@ -67,6 +78,14 @@ public class Main {
         }
     }
 
+    /**
+     * Обрабатывает ошибки, возникающие в процессе игры,
+     * выводя сообщение об ошибке и предлагая пользователю
+     * попробовать снова.
+     *
+     * @param output поток вывода
+     * @param e      исключение, которое произошло
+     */
     public void handleError(PrintStream output, Exception e) {
         output.println("Произошла ошибка: " + e.getMessage());
         output.println("Попробуйте снова.");

@@ -14,7 +14,20 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+/**
+ * Реализация алгоритма A* для решения задачи о лабиринте.
+ * Реализует интерфейс {@link Solver}.
+ */
 public class AStarSolver implements Solver {
+    /**
+     * Находит путь в лабиринте от стартовой до конечной координаты с использованием алгоритма A*.
+     *
+     * @param maze  лабиринт, в котором нужно найти путь
+     * @param start стартовая координата
+     * @param end   конечная координата
+     * @return список координат, представляющий путь от старта до конца,
+     *         или пустой список, если путь не найден
+     */
     @Override
     public List<Coordinate> solve(Maze maze, Coordinate start, Coordinate end) {
         PriorityQueue<Node> openSet = new PriorityQueue<>(Comparator.comparingInt(n -> n.f));
@@ -55,11 +68,26 @@ public class AStarSolver implements Solver {
         return Collections.emptyList();
     }
 
-
+    /**
+     * Вычисляет эвристическую оценку расстояния между двумя координатами.
+     * Использует манхэттенское расстояние.
+     *
+     * @param a первая координата
+     * @param b вторая координата
+     * @return эвристическая оценка расстояния между двумя координатами
+     */
     private int heuristic(Coordinate a, Coordinate b) {
         return Math.abs(a.row() - b.row()) + Math.abs(a.col() - b.col());
     }
 
+    /**
+     * Восстанавливает путь от конечной координаты до стартовой, используя информацию о предшественниках.
+     *
+     * @param cameFrom карта предшественников, где ключом является координата,
+     *                 а значением - предшествующая координата
+     * @param current конечная координата
+     * @return список координат, представляющий путь от начала до конца
+     */
     private List<Coordinate> reconstructPath(Map<Coordinate, Coordinate> cameFrom, Coordinate current) {
         List<Coordinate> totalPath = new ArrayList<>();
         Coordinate temp = current;
@@ -72,6 +100,13 @@ public class AStarSolver implements Solver {
         return totalPath;
     }
 
+    /**
+     * Получает соседние координаты для заданной координаты в лабиринте.
+     *
+     * @param maze      лабиринт, в котором нужно найти соседей
+     * @param coordinate координата, для которой нужно найти соседей
+     * @return список соседних координат, которые не являются стенами
+     */
     private List<Coordinate> getNeighbors(Maze maze, Coordinate coordinate) {
         List<Coordinate> neighbors = new ArrayList<>();
         int row = coordinate.row();
@@ -93,12 +128,21 @@ public class AStarSolver implements Solver {
         return neighbors;
     }
 
-
+    /**
+     * Класс, представляющий узел в алгоритме A*.
+     */
     private static class Node {
         Coordinate coordinate;
         int g;
         int f;
 
+        /**
+         * Конструктор узла.
+         *
+         * @param coordinate координата узла
+         * @param g          стоимость пути от старта до узла
+         * @param f          общая стоимость пути от старта до цели через узел
+         */
         Node(Coordinate coordinate, int g, int f) {
             this.coordinate = coordinate;
             this.g = g;

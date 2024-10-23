@@ -7,9 +7,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Генератор лабиринтов, реализующий алгоритм глубинного поиска (DFS).
+ * Генерирует лабиринт заданной высоты и ширины с использованием
+ * рекурсивного метода глубинного поиска для создания проходов.
+ */
 public class DFSGenerator implements Generator {
     private static final int SHIFT = 2;
 
+    /**
+     * Генерирует лабиринт заданной высоты и ширины.
+     *
+     * @param height высота лабиринта
+     * @param width  ширина лабиринта
+     * @return сгенерированный лабиринт
+     */
     @Override
     public Maze generate(int height, int width) {
         Maze maze = new Maze(height, width);
@@ -20,6 +32,14 @@ public class DFSGenerator implements Generator {
         return maze;
     }
 
+    /**
+     * Рекурсивно выполняет глубинный поиск для создания проходов в лабиринте.
+     *
+     * @param maze    лабиринт, в котором создаются проходы
+     * @param visited массив, отслеживающий посещенные ячейки
+     * @param row     текущая строка
+     * @param col     текущий столбец
+     */
     private void dfs(Maze maze, boolean[][] visited, int row, int col) {
         visited[row][col] = true;
         maze.setCell(row, col, Cell.Type.PASSAGE);
@@ -43,4 +63,3 @@ public class DFSGenerator implements Generator {
         }
     }
 }
-

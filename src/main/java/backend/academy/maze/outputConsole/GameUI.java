@@ -10,6 +10,11 @@ import java.io.PrintStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Класс для взаимодействия с пользователем в текстовом интерфейсе игры.
+ * Предоставляет методы для запроса размеров лабиринта, координат,
+ * выбора генератора и решателя, а также для отображения информации.
+ */
 public class GameUI {
     private final Scanner scanner = new Scanner(System.in);
     private final PrintStream output;
@@ -21,10 +26,20 @@ public class GameUI {
     private static final String INCORRECT_INPUT = "Некорректный ввод. Пожалуйста, введите число.";
     private static final String CHECKSTYLE_IS_JOKE = "): ";
 
+    /**
+     * Конструктор, инициализирующий объект GameUI.
+     *
+     * @param output поток вывода для отображения информации пользователю
+     */
     public GameUI(PrintStream output) {
         this.output = output;
     }
 
+    /**
+     * Запрашивает размеры лабиринта у пользователя.
+     *
+     * @return массив с высотой и шириной лабиринта
+     */
     public int[] requestMazeSize() {
         output.println(ODD_SIZE_PROMPT);
 
@@ -53,6 +68,13 @@ public class GameUI {
         return size;
     }
 
+    /**
+     * Запрашивает у пользователя стартовые и конечные координаты.
+     *
+     * @param mazeHeight высота лабиринта
+     * @param mazeWidth ширина лабиринта
+     * @return массив с координатами стартовой и конечной точек
+     */
     public Coordinate[] requestCoordinates(int mazeHeight, int mazeWidth) {
         output.print("Введите стартовую точку. Сначала строку (1 до " + (mazeHeight - 2) + CHECKSTYLE_IS_JOKE);
         int startRow = getCoordinate(mazeHeight - 2);
@@ -86,6 +108,11 @@ public class GameUI {
         return coordinate;
     }
 
+    /**
+     * Запрашивает у пользователя выбор метода генерации лабиринта.
+     *
+     * @return объект генератора лабиринта, выбранного пользователем
+     */
     public Generator chooseMazeGenerator() {
         output.println("Выберите метод генерации: [1]-алгоритм Прима, [2]-DFS");
 
@@ -101,6 +128,11 @@ public class GameUI {
         };
     }
 
+    /**
+     * Запрашивает у пользователя выбор алгоритма поиска пути.
+     *
+     * @return объект решателя, выбранного пользователем
+     */
     public Solver chooseSolver() {
         output.println("Настала пора выбрать алгоритм для поиска пути: [1]-поиск в ширину, [2]-А*");
 
@@ -116,6 +148,11 @@ public class GameUI {
         };
     }
 
+    /**
+     * Запрашивает у пользователя, хочет ли он добавить препятствия в лабиринт.
+     *
+     * @return true, если пользователь хочет добавить препятствия, иначе false
+     */
     public boolean addObstacles() {
         output.println("Хотите добавить препятствия в лабиринт? [1]-да, [2]-нет");
 
@@ -123,6 +160,9 @@ public class GameUI {
         return choice == 1;
     }
 
+    /**
+     * Выводит описание препятствий, которые могут быть добавлены в лабиринт.
+     */
     public void descriptionObstacles() {
         output.println("⚡ - дождь: уменьшает скорость передвижения");
         output.println("☦ - кладбище: если есть другой путь - лучше выбрать его...");
@@ -130,6 +170,11 @@ public class GameUI {
         output.println("₽ - монетка: улучшает настроение при проходе через неё\n");
     }
 
+    /**
+     * Запрашивает у пользователя тип лабиринта для генерации.
+     *
+     * @return 1 для идеального лабиринта, 2 для неидеального
+     */
     public int requestMazeType() {
         output.println("Сгенерировать [1]-идеальный или [2]-неидеальный лабиринт?");
         int choice = scanner.nextInt();
@@ -137,6 +182,11 @@ public class GameUI {
         return choice == 2 ? 2 : 1;
     }
 
+    /**
+     * Запрашивает у пользователя, хочет ли он продолжить игру.
+     *
+     * @return true, если пользователь хочет продолжить, иначе false
+     */
     public boolean continueGame() {
         output.println("Хотите продолжить игру? [1]-да, [2]-нет");
 
